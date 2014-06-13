@@ -4,22 +4,22 @@
 
 ## Example test data
 
-	```json
-	[
-		{ "val": 2 },
-		{ "val": -1 },
-		{ "val": 3 },
-		{ "val": 4 }
-	]
-	```
+```json
+[
+	{ "val": 2 },
+	{ "val": -1 },
+	{ "val": 3 },
+	{ "val": 4 }
+]
+```
 
 ## Example data transform
 
-	```js
-	return data.map(function(object) {
-		return object.val * 2;
-	});
-	```
+```js
+return data.map(function(object) {
+	return object.val * 2;
+});
+```
 
 # Simple architecture overview
 
