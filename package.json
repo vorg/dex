@@ -1,9 +1,18 @@
 {
-  "name": "VisualExplorer",
+  "name": "Dex",
   "version": "0.0.0",
   "description": "",
   "main": "app.js",
-  "author": "Szymon Kaliski <contact@treesmovethemost.com> (http://treesmovethemost.com/)",
+  "author": {
+    "name": "Szymon Kaliski",
+    "email": "contact@treesmovethemost.com",
+    "url": "http://treesmovethemost.com/"
+  },
+  "contributors": {
+    "name": "Marcin Ignac",
+    "email": "marcin.ignac@gmail.com",
+    "url": "http://marcinignac.com"
+  },
   "license": "MIT",
   "devDependencies": {
     "browserify-middleware": "^3.0.0",
