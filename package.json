@@ -4,5 +4,9 @@
   "description": "",
   "main": "app.js",
   "author": "Szymon Kaliski <contact@treesmovethemost.com> (http://treesmovethemost.com/)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.4.3",
+    "socket.io": "^1.0.4"
+  }
 }
