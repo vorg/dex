@@ -1,0 +1,8 @@
+{
+  "name": "VisualExplorer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "author": "Szymon Kaliski <contact@treesmovethemost.com> (http://treesmovethemost.com/)",
+  "license": "MIT"
+}
