@@ -3,62 +3,75 @@
 var React = require("react");
 var type = require("./utils").type;
 
+var DisplayKey = React.createClass({
+	render: function() {
+		return React.DOM.div({ "className": "key" }, this.props.keyName + ": ");
+	}
+});
+
 var DisplayVariable = React.createClass({
 	render: function() {
-		return React.DOM.div({ "className": this.props.type }, this.props.value);
+		return React.DOM.div(
+			{ "className": this.props.type },
+			this.props.keyName ? DisplayKey({ "keyName": this.props.keyName }) : null,
+			this.props.value
+		);
 	}
 });
 
 var DisplayArray = React.createClass({
 	render: function() {
-		return React.DOM.div({
-			"className": "array",
-			"children": this.props.data.map(function(data) {
-				return DisplayJSON({ "data": data });
-			})
-		});
+		return React.DOM.div({ "className": "array", },
+			this.props.keyName ? DisplayKey({ "keyName": this.props.keyName }) : null,
+			"[",
+			this.props.data.map(function(data) { return DisplayJSON({ "data": data }); }),
+			"]"
+		);
 	}
 });
 
 var DisplayJSON = React.createClass({
 	render: function() {
-		var typeTraverse = {
-			"Object": function(data) {
-				var key, children = [];
+		var children = null;
+		var typeName = type(this.props.data);
+		var data = this.props.data;
+
+		switch (typeName) {
+			case "Object":
+				var key;
+				children = [];
 
 				for (key in data) {
 					if (data.hasOwnProperty(key)) {
-						children.push(DisplayJSON({ "data": data[key] }));
+						children.push(DisplayJSON({
+							"data": data[key],
+							"keyName": key
+						}));
 					}
 				}
+				break;
 
-				return children;
-			},
+			case "Array":
+				children = DisplayArray({
+					"data": data,
+					"keyName": this.props.keyName
+				});
+				break;
 
-			"Array": function(data) {
-				return DisplayArray({ "data": data });
-			},
+			default:
+				if (typeName === "Boolean") {
+					data = data ? "true" : "false";
+				}
 
-			"String": function(data) {
-				return DisplayVariable({ "type": "string", "value": data });
-			},
+				children = DisplayVariable({
+					"type": typeName.toLowerCase(),
+					"value": data,
+					"keyName": this.props.keyName
+				});
+				break;
+		}
 
-			"Number": function(data) {
-				return DisplayVariable({ "type": "number", "value": data });
-			},
-
-			"Boolean": function(data) {
-				return DisplayVariable({ "type": "boolean", "value": data });
-			}
-		};
-
-		var dataType = type(this.props.data);
-		var children = typeTraverse[dataType](this.props.data);
-
-		return React.DOM.div({
-			"className": "json",
-			"children": children
-		});
+		return React.DOM.div({ "className": "json", "children": children });
 	}
 });
 
