@@ -1,5 +1,5 @@
 var type = function (object) {
-	return !!object && Object.prototype.toString.call(object).match(/(\w+)\]/)[1];
+	return Object.prototype.toString.call(object).match(/(\w+)\]/)[1];
 };
 
 var debounce = function(func, time) {

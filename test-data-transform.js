@@ -8,6 +8,7 @@ return {
 		"other": true
 	},
 	"meta": {
-		"name": "DEX"
+		"name": "DEX",
+		"test": false
 	}
 };
