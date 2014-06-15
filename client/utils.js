@@ -1,3 +1,7 @@
+var type = function (object) {
+	return !!object && Object.prototype.toString.call(object).match(/(\w+)\]/)[1];
+};
+
 var debounce = function(func, time) {
 	var timeout;
 
@@ -14,5 +18,6 @@ var debounce = function(func, time) {
 };
 
 module.exports = {
+	"type": type,
 	"debounce": debounce
 };
