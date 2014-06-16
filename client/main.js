@@ -15,6 +15,8 @@ var visualizeData = utils.debounce(function() {
 	if (global.data && global.visualize) {
 		var results = global.visualize(global.data);
 
+		// TODO: looses state here, read more about React, and fix it!
+		// should probably use .setState, etc...
 		components.main(components.tabs([
 			{ "title": "JSON", "content": components.json(results) },
 			{ "title": "GEO", "content": components.geo(results) }
