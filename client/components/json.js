@@ -1,5 +1,3 @@
-/*global document */
-
 var React = require("react/addons");
 var type = require("./../utils").type;
 var DisplayJSON; // will be redefined later

@@ -1,5 +1,3 @@
-/*global document */
-
 var React = require("react");
 
 var TabContent = React.createClass({

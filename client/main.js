@@ -4,7 +4,8 @@ var utils = require("./utils");
 var components = {
 	"main": require("./components/main"),
 	"tabs": require("./components/tabs"),
-	"json": require("./components/json")
+	"json": require("./components/json"),
+	"geo": require("./components/geo")
 };
 
 var global = { "data": null, "visualize": null };
@@ -16,7 +17,7 @@ var visualizeData = utils.debounce(function() {
 
 		components.main(components.tabs([
 			{ "title": "JSON", "content": components.json(results) },
-			{ "title": "GEO", "content": "here be dragons (on map)" }
+			{ "title": "GEO", "content": components.geo(results) }
 		]));
 	}
 }, 100);
