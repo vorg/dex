@@ -1,36 +1,64 @@
-.json {
-	/* colors: http://ethanschoonover.com/solarized */
+@import "../node_modules/bootstrap/less/bootstrap.less";
 
-	background: #fdf6e3;
+// nice menu cursor
+.nav a {
+	cursor: pointer;
+}
+
+.container.main {
+	margin-top: 80px;
+}
+
+.json {
+	// colors: http://ethanschoonover.com/solarized
+
+	@base03:  #002b36;
+	@base02:  #073642;
+	@base01:  #586e75;
+	@base00:  #657b83;
+	@base0:   #839496;
+	@base1:   #93a1a1;
+	@base2:   #eee8d5;
+	@base3:   #fdf6e3;
+	@yellow:  #b58900;
+	@orange:  #cb4b16;
+	@red:     #dc322f;
+	@magenta: #d33682;
+	@violet:  #6c71c4;
+	@blue:    #268bd2;
+	@cyan:    #2aa198;
+	@green:   #859900;
+
+	background: @base3;
 	margin-left: 14px;
 	margin-bottom: 2px;
 
 	.key {
-		color: #586e75;
+		color: @base01;
 		padding-bottom: 2px;
 	}
 
 	.key-inline {
-		color: #93a1a1;
+		color: @base1;
 		float: left;
 		margin-right: 8px;
 	}
 
 	.array {
-		color: #cb4b16;
+		color: @orange;
 		overflow: hidden;
 	}
 
 	.number {
-		color: #268bd2;
+		color: @blue;
 	}
 
 	.string {
-		color: #b58900;
+		color: @yellow;
 	}
 
 	.boolean {
-		color: #d33682;
+		color: @magenta;
 	}
 
 	.array > * {

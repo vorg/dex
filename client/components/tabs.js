@@ -5,7 +5,7 @@ var React = require("react");
 var TabContent = React.createClass({
 	render: function() {
 		return React.DOM.div(
-			{ "className": "tab-content" },
+			{ "className": "container main" },
 			this.props.content
 		);
 	}
@@ -19,13 +19,22 @@ var TabSwitcher = React.createClass({
 
 	render: function() {
 		return React.DOM.div(
-			{ "className": "tab-names" },
-			this.props.tabs.map(function(tab) {
-				return React.DOM.div(
-					{ "onClick": this.onClick.bind(this, tab) },
-					tab.title
-				);
-			}.bind(this))
+			{ "className": "navbar navbar-inverse navbar-fixed-top" },
+			React.DOM.div(
+				{ "className": "container" },
+				React.DOM.ul(
+					{ "className": "nav navbar-nav" },
+					this.props.tabs.map(function(tab) {
+						return React.DOM.li(
+							null,
+							React.DOM.a(
+								{ "onClick": this.onClick.bind(this, tab) },
+								tab.title
+							)
+						);
+					}.bind(this))
+				)
+			)
 		);
 	}
 });
@@ -47,7 +56,7 @@ var Tabs = React.createClass({
 
 	render: function() {
 		return React.DOM.div(
-			{ "class": "tab-switcher" },
+			null,
 			TabSwitcher({
 				"tabs": this.props.tabs,
 				"activeTab": this.state.activeTab,
