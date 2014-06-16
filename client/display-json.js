@@ -32,7 +32,8 @@ var DisplayVariable = React.createClass({
 
 var DisplayArray = React.createClass({
 	render: function() {
-		return React.DOM.div({ "className": "array", },
+		return React.DOM.div(
+			{ "className": "array", },
 			"[",
 			this.props.data.map(function(data) { return DisplayJSON({ "data": data }); }),
 			"]"
