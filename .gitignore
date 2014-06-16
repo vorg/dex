@@ -3,3 +3,6 @@
 
 # Node.js
 node_modules/
+
+# Data examples for testing
+example_data/
