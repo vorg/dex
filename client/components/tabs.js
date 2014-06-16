@@ -6,7 +6,13 @@ var TabContent = React.createClass({
 	render: function() {
 		return React.DOM.div(
 			{ "className": "container main" },
-			this.props.content
+			React.DOM.div(
+				{ "className": "panel panel-default" },
+				React.DOM.div(
+					{ "className": "panel-body" },
+					this.props.content
+				)
+			)
 		);
 	}
 });
