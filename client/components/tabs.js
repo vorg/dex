@@ -60,8 +60,4 @@ var Tabs = React.createClass({
 	}
 });
 
-var renderTabs = function(tabs) {
-	React.renderComponent(Tabs({ "tabs": tabs }), document.getElementById("content"));
-};
-
-module.exports = renderTabs;
+module.exports = Tabs;

@@ -1,7 +1,7 @@
 /*global document */
 
 var React = require("react/addons");
-var type = require("./utils").type;
+var type = require("./../utils").type;
 var DisplayJSON; // will be redefined later
 
 var DisplayKey = React.createClass({
@@ -90,9 +90,4 @@ DisplayJSON = React.createClass({
 	}
 });
 
-var renderJSON = function(data) {
-	// React.renderComponent(DisplayArray({ "data": data }), document.getElementById("content"));
-	React.renderComponent(DisplayJSON({ "data": data }), document.getElementById("content"));
-};
-
-module.exports = renderJSON;
+module.exports = DisplayJSON;

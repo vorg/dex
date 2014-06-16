@@ -1,8 +1,11 @@
 var socket = require("socket.io-client")();
-var utils = require("./utils.js");
+var utils = require("./utils");
 
-var displayJSON = require("./display-json.js");
-var displayTabs = require("./tabs.js");
+var components = {
+	"main": require("./components/main"),
+	"tabs": require("./components/tabs"),
+	"json": require("./components/json")
+};
 
 var global = { "data": null, "visualize": null };
 
@@ -11,13 +14,12 @@ var visualizeData = utils.debounce(function() {
 	if (global.data && global.visualize) {
 		var results = global.visualize(global.data);
 
-		// display resulting JSON data using react
-		// displayJSON(results);
-		//
-		displayTabs([
-			{ "title": "test1", "content": "1" },
-			{ "title": "test2", "content": "2" }
-		]);
+		components.main(components.tabs({
+			"tabs": [
+				{ "title": "JSON", "content": components.json(results) },
+				{ "title": "GEO", "content": "here be dragons (on map)" }
+			]
+		}));
 	}
 }, 100);
 
