@@ -1,6 +1,6 @@
 # Usage
 
-	node app.js [data-transform-script.js] [data-file.json]
+	grunt --script=[data-transform-script.js] --data=[data-file.json]
 
 ## Example test data
 

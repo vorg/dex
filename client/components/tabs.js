@@ -75,4 +75,6 @@ var Tabs = React.createClass({
 	}
 });
 
-module.exports = Tabs;
+module.exports = function(tabs) {
+	return Tabs({ "tabs": tabs });
+};

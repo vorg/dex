@@ -14,12 +14,10 @@ var visualizeData = utils.debounce(function() {
 	if (global.data && global.visualize) {
 		var results = global.visualize(global.data);
 
-		components.main(components.tabs({
-			"tabs": [
-				{ "title": "JSON", "content": components.json(results) },
-				{ "title": "GEO", "content": "here be dragons (on map)" }
-			]
-		}));
+		components.main(components.tabs([
+			{ "title": "JSON", "content": components.json(results) },
+			{ "title": "GEO", "content": "here be dragons (on map)" }
+		]));
 	}
 }, 100);
 

@@ -90,4 +90,6 @@ DisplayJSON = React.createClass({
 	}
 });
 
-module.exports = DisplayJSON;
+module.exports = function(data) {
+	return DisplayJSON({ "data" : data });
+};
