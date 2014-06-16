@@ -10,7 +10,7 @@ module.exports = function(grunt) {
 				script: "app.js",
 				options: {
 					args: [ scriptFile, dataFile ],
-					ignoredFiles: [ "clien/**", "node_modules/**" ],
+					ignoredFiles: [ "client/**", "node_modules/**", "public/**" ],
 					watchedExtensions: [ "js" ],
 					env: {
 						PORT: "3000"
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
 		watch: {
 			less: {
-				files: [ "public/**" ],
+				files: [ "public/*.less" ],
 				tasks: [ "less" ]
 			},
 			js: {
