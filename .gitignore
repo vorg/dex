@@ -6,3 +6,6 @@ node_modules/
 
 # Data examples for testing
 example_data/
+
+# style.css is generated from less
+public/style.css
