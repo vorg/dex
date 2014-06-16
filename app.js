@@ -1,15 +1,11 @@
 var fs = require("fs");
 var express = require("express");
-var browserify = require('browserify-middleware');
-
 var app = express();
 var server = app.listen(3000);
 var io = require("socket.io")(server);
 
 // server static files (index.html) from ./public/
 app.use(express.static(__dirname + "/public"));
-// automatically browserify main script from ./client/main.js
-app.get("/scripts/main.js", browserify("./client/main.js"));
 
 if (process.argv.length !== 4) {
 	console.log("paramaters: [data-processing-script.js] [data-file.json]");

@@ -21,8 +21,14 @@ module.exports = function(grunt) {
 		},
 
 		watch: {
-			files: [ "public/**" ],
-			tasks: [ "less" ]
+			less: {
+				files: [ "public/**" ],
+				tasks: [ "less" ]
+			},
+			js: {
+				files: [ "client/**" ],
+				tasks: [ "browserify" ]
+			}
 		},
 
 		less: {
@@ -34,6 +40,10 @@ module.exports = function(grunt) {
 					"public/style.css": "public/style.less"
 				}
 			}
+		},
+
+		browserify: {
+			"public/main.js": [ "client/main.js" ]
 		},
 
 		concurrent: {
@@ -49,6 +59,7 @@ module.exports = function(grunt) {
 	// load libs
 	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-browserify");
 	grunt.loadNpmTasks("grunt-concurrent");
 	grunt.loadNpmTasks("grunt-nodemon");
 
@@ -56,5 +67,5 @@ module.exports = function(grunt) {
 	grunt.registerTask("run", [ "concurrent" ]);
 
 	// default task
-	grunt.registerTask("default", [ "less", "run" ]);
+	grunt.registerTask("default", [ "browserify", "less", "run" ]);
 };

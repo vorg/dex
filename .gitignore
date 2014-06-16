@@ -9,3 +9,6 @@ example_data/
 
 # style.css is generated from less
 public/style.css
+
+# main.js is compiled via browserify
+public/main.js
