@@ -1,6 +1,6 @@
 # Usage
 
-	grunt --script=[data-transform-script.js] --data=[data-file.json]
+	grunt --script=[data-transform-script.js] --data=[data-file.json] --port=[frontend-port]
 
 ## Example test data
 
