@@ -1,6 +1,6 @@
 module.exports = function(grunt) {
-	var scriptFile = grunt.option("script") || "test-data-transform.js";
-	var dataFile = grunt.option("data") || "test-data.json";
+	var scriptFile = grunt.option("script") || "example_data/test-data-transform.js";
+	var dataFile = grunt.option("data") || "example_data/test-data.json";
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
