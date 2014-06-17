@@ -5,10 +5,10 @@ var array = data.map(function(object) {
 return {
 	"data": {
 		"arr": array,
-		"other": true
+		"other": false
 	},
 	"meta": {
 		"name": "DEX",
-		"test": false
+		"test": true
 	}
 };

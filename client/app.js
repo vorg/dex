@@ -1,26 +1,13 @@
 var socket = require("socket.io-client")();
 var utils = require("./utils");
-
-var components = {
-	"main": require("./components/main"),
-	"tabs": require("./components/tabs"),
-	"json": require("./components/json"),
-	"geo": require("./components/geo")
-};
+var View = require("./components/main");
 
 var global = { "data": null, "visualize": null };
 
 // debounced data visualization
 var visualizeData = utils.debounce(function() {
 	if (global.data && global.visualize) {
-		var results = global.visualize(global.data);
-
-		// TODO: looses state here, read more about React, and fix it!
-		// should probably use .setState, etc...
-		components.main(components.tabs([
-			{ "title": "JSON", "content": components.json(results) },
-			{ "title": "GEO", "content": components.geo(results) }
-		]));
+		View(global.visualize(global.data));
 	}
 }, 100);
 

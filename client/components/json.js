@@ -88,6 +88,4 @@ DisplayJSON = React.createClass({
 	}
 });
 
-module.exports = function(data) {
-	return DisplayJSON({ "data" : data });
-};
+module.exports = DisplayJSON;

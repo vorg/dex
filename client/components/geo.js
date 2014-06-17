@@ -92,6 +92,4 @@ var GeoChart = React.createClass({
 	}
 });
 
-module.exports = function(data) {
-	return GeoChart({ "data": data });
-};
+module.exports = GeoChart;

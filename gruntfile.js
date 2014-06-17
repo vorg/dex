@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 		browserify: {
 			client: {
 				dest: "public/main.js",
-				src: [ "client/main.js" ],
+				src: [ "client/app.js" ],
 				options: {
 					watch: true,
 					keepAlive: true
