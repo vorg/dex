@@ -1,6 +1,7 @@
 module.exports = function(grunt) {
 	var scriptFile = grunt.option("script") || "example_data/test-data-transform.js";
 	var dataFile = grunt.option("data") || "example_data/test-data.json";
+	var port = grunt.option("port") || 3000;
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON("package.json"),
@@ -9,11 +10,12 @@ module.exports = function(grunt) {
 			dev: {
 				script: "app.js",
 				options: {
-					args: [ scriptFile, dataFile ],
-					ignore: [ "client/**", "node_modules/**", "public/**", scriptFile, dataFile  ],
-					env: {
-						PORT: "3000"
-					},
+					args: [
+						"--script=" + scriptFile,
+						"--data=" + dataFile,
+						"--port=" + port
+					],
+					ignore: [ "client/**", "node_modules/**", "public/**", "example_data/**" ],
 					cwd: __dirname
 				}
 			}
