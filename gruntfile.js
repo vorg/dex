@@ -10,8 +10,7 @@ module.exports = function(grunt) {
 				script: "app.js",
 				options: {
 					args: [ scriptFile, dataFile ],
-					ignoredFiles: [ "client/**", "node_modules/**", "public/**" ],
-					watchedExtensions: [ "js" ],
+					ignore: [ "client/**", "node_modules/**", "public/**", scriptFile, dataFile  ],
 					env: {
 						PORT: "3000"
 					},
@@ -24,10 +23,6 @@ module.exports = function(grunt) {
 			less: {
 				files: [ "public/*.less" ],
 				tasks: [ "less" ]
-			},
-			js: {
-				files: [ "client/**" ],
-				tasks: [ "browserify" ]
 			}
 		},
 
@@ -43,12 +38,19 @@ module.exports = function(grunt) {
 		},
 
 		browserify: {
-			"public/main.js": [ "client/main.js" ]
+			client: {
+				dest: "public/main.js",
+				src: [ "client/main.js" ],
+				options: {
+					watch: true,
+					keepAlive: true
+				}
+			}
 		},
 
 		concurrent: {
 			dev: {
-				tasks: [ "nodemon", "watch" ],
+				tasks: [ "nodemon", "watch", "browserify" ],
 				options: {
 					logConcurrentOutput: true
 				}
@@ -67,5 +69,5 @@ module.exports = function(grunt) {
 	grunt.registerTask("run", [ "concurrent" ]);
 
 	// default task
-	grunt.registerTask("default", [ "browserify", "less", "run" ]);
+	grunt.registerTask("default", [ "less", "run" ]);
 };
