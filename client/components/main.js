@@ -4,7 +4,8 @@ var React = require("react");
 var TabSwitcher = require("./tabs").TabSwitcher;
 var TabContent = require("./tabs").TabContent;
 var JSON = require("./json");
-var GeoChart = require("./geo");
+var GeoChart = require("./geo-chart");
+var ScatterPlot = require("./scatter-plot");
 
 // basic Tabs class
 var Tabs = React.createClass({
@@ -13,7 +14,8 @@ var Tabs = React.createClass({
 			"activeTab": 0,
 			"tabs": [
 				{ "id": 0, "title": "JSON", "content": JSON },
-				{ "id": 1, "title": "Geo", "content": GeoChart }
+				{ "id": 1, "title": "Geo Chart", "content": GeoChart },
+				{ "id": 2, "title": "Scatterplot", "content": ScatterPlot }
 			]
 		};
 	},
