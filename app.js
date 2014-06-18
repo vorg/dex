@@ -54,7 +54,7 @@ var transformData = function(path, data, callback) {
 		callback(data);
 	}
 	else if (path.match(/\.csv$/)) {
-		callback(json.stringify(csv.parse(data)));
+		callback(JSON.stringify(csv.parse(data)));
 	}
 	else {
 		console.error("can't parse " + path);
