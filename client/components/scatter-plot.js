@@ -1,54 +1,70 @@
 var React = require("react");
 var d3 = require("d3");
+var type = require("./../utils").type;
+
+var autoScale = function(data, field, orient, margin, size) {
+	var scale, axis, domain, range;
+
+	// scale is linear if all values are numbers
+	var isLinear = data.reduce(function(memo, object) {
+		if (type(object[field]) !== "Number") { return false; }
+		return memo;
+	}, true);
+
+	// create proper scale
+	if (isLinear) {
+		domain = data.reduce(function(memo, object) {
+			if (object[field] < memo[0]) { memo[0] = object[field]; }
+			if (object[field] > memo[1]) { memo[1] = object[field]; }
+
+			return memo;
+		}, [ Infinity, -Infinity  ]);
+
+		scale = d3.scale.linear().domain(domain);
+	}
+	else {
+		domain = data.reduce(function(memo, object) {
+			if (memo.indexOf(object[field]) < 0) { memo.push(object[field]); }
+			return memo;
+		}, []);
+
+		scale = d3.scale.ordinal().domain(domain);
+	}
+
+	// set ranges
+	if (orient === "bottom") {
+		range = [ margin.left, size.width - margin.right ];
+	}
+	else {
+		range = [ size.height - margin.bottom, margin.top ];
+	}
+
+	if (isLinear) {
+		scale.range(range);
+	}
+	else {
+		scale.rangeBands(range);
+	}
+
+	// create axis
+	axis = d3.svg.axis().scale(scale).orient(orient);
+
+	return { "scale": scale, "axis": axis };
+};
 
 var Chart = function(props) {
-	var margin = {
-		"left": 100,
-		"right": 20,
-		"top": 20,
-		"bottom": 100
-	};
-
+	var margin = { "left": 100, "right": 20, "top": 20, "bottom": 100 };
 	var fieldX = "x";
 	var fieldY = "y";
 
-	var reduceForOrdinalScale = function(data, field) {
-		return data.reduce(function(memo, object) {
-			if (memo.indexOf(object[field]) < 0) {
-				memo.push(object[field]);
-			}
-			return memo;
-		}, []);
-	};
-
-	var domainX = reduceForOrdinalScale(props.data, fieldX);
-	var domainY = reduceForOrdinalScale(props.data, fieldY);
-
-	var scaleX = d3.scale.ordinal()
-		.rangeBands([ margin.left, props.width - margin.right ])
-		.domain(domainX);
-
-	var scaleY = d3.scale.ordinal()
-		.rangeBands([ props.height - margin.bottom, margin.top ])
-		.domain(domainY);
-
-	var axisX = d3.svg.axis()
-		.scale(scaleX)
-		.orient("bottom");
-
-	var axisY = d3.svg.axis()
-		.scale(scaleY)
-		.orient("left");
+	var autoScaleX = autoScale(props.data, fieldX, "bottom", margin, { "width": props.width, "height": props.height });
+	var autoScaleY = autoScale(props.data, fieldY, "left", margin, { "width": props.width, "height": props.height });
 
 	// function for point update / create
 	var updatePoint = function(point) {
 		point
-			.attr("cx", function(d) {
-				return scaleX(d[fieldX]);
-			})
-			.attr("cy", function(d) {
-				return scaleY(d[fieldY]);
-			})
+			.attr("cx", function(d) { return autoScaleX.scale(d[fieldX]); })
+			.attr("cy", function(d) { return autoScaleY.scale(d[fieldY]); })
 			.attr("r", 4);
 	};
 
@@ -61,7 +77,7 @@ var Chart = function(props) {
 			.append("g")
 			.attr("class", "axis-x")
 			.attr("transform", "translate(0," + (props.height - margin.bottom) + ")")
-			.call(axisX)
+			.call(autoScaleX.axis)
 			.selectAll("text")
 			.style("text-anchor", "end")
 			.attr("dx", "-0.8em")
@@ -72,7 +88,7 @@ var Chart = function(props) {
 			.append("g")
 			.attr("class", "axis-y")
 			.attr("transform", "translate(" + margin.left + ",0)")
-			.call(axisY);
+			.call(autoScaleY.axis);
 
 		var points = svg.selectAll(".point")
 			.data(props.data);
