@@ -28,17 +28,17 @@ var NumberStats = React.createClass({
 			if (value < memo.min) { memo.min = value; }
 			if (value > memo.max) { memo.max = value; }
 			memo.count++;
-			memo.avg += value;
+			memo.sum += value;
 
 			return memo;
 		}, {
 			"min": Infinity,
 			"max": -Infinity,
 			"count": 0,
-			"avg": 0
+			"sum": 0
 		});
 
-		stats.avg /= stats.count;
+		stats.avg = stats.sum / stats.count;
 
 		return stats;
 	},
@@ -48,7 +48,7 @@ var NumberStats = React.createClass({
 
 		return React.DOM.div(
 			null,
-			[ "min", "max", "avg", "count" ].map(function(key) {
+			[ "min", "max", "avg", "sum", "count" ].map(function(key) {
 				return React.DOM.div(
 					null,
 					key + ": ",
@@ -59,6 +59,48 @@ var NumberStats = React.createClass({
 	}
 });
 
+// calculate and display string statistics
+var StringStats = React.createClass({
+	calculateStats: function(data) {
+		var wordCount = data.reduce(function(memo, word) {
+			if (memo[word]) { memo[word]++; }
+			else { memo[word] = 1; }
+			return memo;
+		}, {});
+
+		var key, stats = { "counts": [] };
+		for (key in wordCount) {
+			if (wordCount.hasOwnProperty(key)) {
+				stats.counts.push({ "word": key, "count": wordCount[key] });
+			}
+		}
+
+		stats.counts = stats.counts.sort(function(a, b) {
+			var sort = 0;
+			if (a.count > b.count) { sort = -1; }
+			if (a.count < b.count) { sort = 1; }
+
+			return sort;
+		});
+
+		return stats;
+	},
+
+	render: function() {
+		var stats = this.calculateStats(this.props.data);
+
+		return React.DOM.div(
+			null,
+			stats.counts.map(function(object) {
+				return React.DOM.div(
+					null,
+					object.word + ": ",
+					React.DOM.b(null, object.count)
+				);
+			})
+		);
+	}
+});
 
 // main react class
 var DisplayInfo = React.createClass({
@@ -67,7 +109,8 @@ var DisplayInfo = React.createClass({
 		var content = null;
 
 		var typesMap = {
-			"Number": NumberStats
+			"Number": NumberStats,
+			"String": StringStats
 		};
 
 		if (typesMap[dataType]) { content = typesMap[dataType]({ "data": this.props.data }); }
