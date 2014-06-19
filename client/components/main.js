@@ -1,8 +1,6 @@
 /*global document */
 
 var React = require("react");
-var TabSwitcher = require("./tabs").TabSwitcher;
-var TabContent = require("./tabs").TabContent;
 var JSON = require("./json");
 var GeoChart = require("./geo-chart");
 var ScatterPlot = require("./scatter-plot");
@@ -53,7 +51,6 @@ var Main = React.createClass({
 		);
 	}
 });
-
 
 module.exports = function(data) {
 	React.renderComponent(Main({ "data": data }), document.body);
