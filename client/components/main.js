@@ -7,38 +7,54 @@ var JSON = require("./json");
 var GeoChart = require("./geo-chart");
 var ScatterPlot = require("./scatter-plot");
 
-// basic Tabs class
-var Tabs = React.createClass({
-	getInitialState: function() {
-		return {
-			"activeTab": 0,
-			"tabs": [
-				{ "id": 0, "title": "JSON", "content": JSON },
-				{ "id": 1, "title": "Geo Chart", "content": GeoChart },
-				{ "id": 2, "title": "Scatterplot", "content": ScatterPlot }
-			]
-		};
-	},
+var Type = {
+	"geo": GeoChart,
+	"scatter": ScatterPlot,
+	"json": JSON
+};
 
-	onTabClick: function(tab) {
-		this.setState({ "activeTab": tab.id });
-	},
+var Wrapper = React.createClass({
+	render: function() {
+		var heading = null;
+		if (this.props.title) {
+			heading = React.DOM.div(
+				{ "className": "panel-heading" },
+				React.DOM.h3(
+					{ "className": "panel-title" },
+					this.props.title
+				)
+			);
+		}
 
+		return React.DOM.div(
+			{ "className": "container main" },
+			React.DOM.div(
+				{ "className": "panel panel-default" },
+				heading,
+				React.DOM.div(
+					{ "className": "panel-body" },
+					this.props.content
+				)
+			)
+		);
+	}
+});
+
+var Main = React.createClass({
 	render: function() {
 		return React.DOM.div(
 			null,
-			TabSwitcher({
-				"tabs": this.state.tabs,
-				"activeTab": this.state.activeTab,
-				"onTabClick": this.onTabClick
-			}),
-			TabContent({
-				"content": this.state.tabs[this.state.activeTab].content({ "data": this.props.data })
+			this.props.data.map(function(object) {
+				return Wrapper({
+					"content": Type[object.type]({ "data": object.data }),
+					"title": object.title || null
+				});
 			})
 		);
 	}
 });
 
+
 module.exports = function(data) {
-	React.renderComponent(Tabs({ "data": data }), document.body);
+	React.renderComponent(Main({ "data": data }), document.body);
 };
