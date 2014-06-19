@@ -1,19 +1,17 @@
 /*global document */
 
 var React = require("react");
-var JSON = require("./json");
-var GeoChart = require("./geo-chart");
-var ScatterPlot = require("./scatter-plot");
-
 var Type = {
-	"geo": GeoChart,
-	"scatter": ScatterPlot,
-	"json": JSON
+	"geo": require("./geo-chart"),
+	"scatter": require("./scatter-plot"),
+	"json": require("./json"),
+	"info": require("./info")
 };
 
 var Wrapper = React.createClass({
 	render: function() {
 		var heading = null;
+
 		if (this.props.title) {
 			heading = React.DOM.div(
 				{ "className": "panel-heading" },
@@ -43,8 +41,17 @@ var Main = React.createClass({
 		return React.DOM.div(
 			null,
 			this.props.data.map(function(object) {
+				var content;
+
+				if (Type[object.type]) {
+					content = Type[object.type]({ "data": object.data });
+				}
+				else {
+					content = React.DOM.div(null, "Error! Unrecognized type: " + object.type);
+				}
+
 				return Wrapper({
-					"content": Type[object.type]({ "data": object.data }),
+					"content": content,
 					"title": object.title || null
 				});
 			})
