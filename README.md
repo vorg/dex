@@ -16,10 +16,22 @@
 ## Example data transform
 
 ```js
-return data.map(function(object) {
+var data = data.map(function(object) {
 	return object.val * 2;
 });
+
+return [
+	{ "type": "json", "data": data }
+]
 ```
+
+## Available data displays
+
+- `json` - displays json data
+- `bar` - bar chart, requires x/y fields
+- `scatter` - scatterplot, requires x/y fields
+- `geo` - map, requires lat/lon fields
+- `info` - basic info, requires array of values
 
 # Simple architecture overview
 
