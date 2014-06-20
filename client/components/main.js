@@ -2,6 +2,7 @@
 
 var React = require("react");
 var Type = {
+	"bar": require("./bar-chart"),
 	"geo": require("./geo-chart"),
 	"scatter": require("./scatter-plot"),
 	"json": require("./json"),
@@ -47,7 +48,7 @@ var Main = React.createClass({
 					content = Type[object.type]({ "data": object.data });
 				}
 				else {
-					content = React.DOM.div(null, "Error! Unrecognized type: " + object.type);
+					content = React.DOM.div({ "className": "error" }, "Error! Unrecognized type: " + object.type);
 				}
 
 				return Wrapper({

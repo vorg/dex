@@ -1,56 +1,6 @@
 var React = require("react");
 var d3 = require("d3");
-var type = require("./../utils").type;
-
-var autoScale = function(data, field, orient, margin, size) {
-	var scale, axis, domain, range;
-
-	// scale is linear if all values are numbers
-	var isLinear = data.reduce(function(memo, object) {
-		if (type(object[field]) !== "Number") { return false; }
-		return memo;
-	}, true);
-
-	// create proper scale
-	if (isLinear) {
-		domain = data.reduce(function(memo, object) {
-			if (object[field] < memo[0]) { memo[0] = object[field]; }
-			if (object[field] > memo[1]) { memo[1] = object[field]; }
-
-			return memo;
-		}, [ Infinity, -Infinity  ]);
-
-		scale = d3.scale.linear().domain(domain);
-	}
-	else {
-		domain = data.reduce(function(memo, object) {
-			if (memo.indexOf(object[field]) < 0) { memo.push(object[field]); }
-			return memo;
-		}, []);
-
-		scale = d3.scale.ordinal().domain(domain);
-	}
-
-	// set ranges
-	if (orient === "bottom") {
-		range = [ margin.left, size.width - margin.right ];
-	}
-	else {
-		range = [ size.height - margin.bottom, margin.top ];
-	}
-
-	if (isLinear) {
-		scale.range(range);
-	}
-	else {
-		scale.rangeBands(range);
-	}
-
-	// create axis
-	axis = d3.svg.axis().scale(scale).orient(orient);
-
-	return { "scale": scale, "axis": axis, "type": isLinear ? "linear" : "ordinal" };
-};
+var autoScale = require("./chart-utils").autoScale;
 
 // adjust points to align with axis when scale is ordinal
 var adjustPointPosition = function(scale, orient, margin, size) {
@@ -75,7 +25,7 @@ var adjustPointPosition = function(scale, orient, margin, size) {
 
 // main chart function
 var Chart = function(props) {
-	var margin = { "left": 100, "right": 20, "top": 20, "bottom": 100 };
+	var margin = { "left": 100, "right": 20, "top": 20, "bottom": 200 };
 	var size = { "width": props.width, "height": props.height };
 	var fieldX = "x";
 	var fieldY = "y";
@@ -145,7 +95,7 @@ var Chart = function(props) {
 
 var ScatterPlot = React.createClass({
 	defaultWidth: 1100,
-	defaultHeight: 640,
+	defaultHeight: 800,
 
 	updateChart: function(props) {
 		var chartProps = props || this.props;

@@ -1,26 +1,6 @@
 var React = require("react");
 var moment = require("moment");
-var type = require("../utils").type;
-
-// detects type of values inside array
-var detectType = function(data) {
-	var dataType = data.reduce(function(memo, value) {
-		if (memo === null) {
-			memo = type(value);
-		}
-		else if (type(value) !== memo) {
-			memo = undefined;
-		}
-
-		return memo;
-	}, null);
-
-	if (dataType === undefined) {
-		console.error("undefined type for data", data);
-	}
-
-	return dataType;
-};
+var arrayType = require("../utils").arrayType;
 
 // calculate and display number statistics
 var NumberStats = React.createClass({
@@ -166,7 +146,7 @@ var DisplayTypeError = React.createClass({
 // main react class
 var DisplayInfo = React.createClass({
 	render: function() {
-		var dataType = detectType(this.props.data);
+		var dataType = arrayType(this.props.data);
 		var content = null;
 
 		var typesMap = {
