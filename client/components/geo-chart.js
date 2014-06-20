@@ -1,7 +1,8 @@
 var React = require("react");
 var d3 = require("d3");
+var Chart = require("./chart");
 
-var Chart = function(props) {
+var D3Chart = function(props) {
 	// initial projection
 	var projection = d3.geo.mercator()
 		.scale(1)
@@ -58,37 +59,12 @@ var Chart = function(props) {
 	};
 };
 
-var GeoChart = React.createClass({
-	defaultWidth: 1100,
-	defaultHeight: 640,
-
-	updateChart: function(props) {
-		var chartProps = props || this.props;
-
-		chartProps.width = chartProps.width || this.defaultWidth;
-		chartProps.height = chartProps.height || this.defaultHeight;
-
-		d3.select(this.getDOMNode())
-			.call(Chart(chartProps));
-	},
-
+module.exports = React.createClass({
 	render: function() {
-		return React.DOM.svg({
-			"height": this.props.height || this.defaultHeight,
-			"width": this.props.width || this.defaultWidth
+		return Chart({
+			"className": "geo-chart",
+			"drawFunc": D3Chart,
+			"data": this.props.data
 		});
-	},
-
-	componentDidMount: function() {
-		this.updateChart();
-	},
-
-	shouldComponentUpdate: function(props) {
-		this.updateChart(props);
-
-		// skip React render
-		return false;
 	}
 });
-
-module.exports = GeoChart;
