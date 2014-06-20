@@ -1,13 +1,14 @@
 var React = require("react");
+var moment = require("moment");
 var type = require("../utils").type;
 
 // detects type of values inside array
 var detectType = function(data) {
 	var dataType = data.reduce(function(memo, value) {
-		if (!memo) {
+		if (memo === null) {
 			memo = type(value);
 		}
-		else if (type(value) !== type(memo)) {
+		else if (type(value) !== memo) {
 			memo = undefined;
 		}
 
@@ -102,6 +103,66 @@ var StringStats = React.createClass({
 	}
 });
 
+// calculate and display stats for dates
+var DateStats = React.createClass({
+	calculateStats: function(data) {
+		// calculate dates span
+		var stats = data.reduce(function(memo, date) {
+			if (date < memo.min) { memo.min = date; }
+			if (date > memo.max) { memo.max = date; }
+
+			return memo;
+		}, {
+			"min": Infinity,
+			"max": -Infinity
+		});
+
+		// build duration string
+		var duration = moment.duration(stats.max - stats.min);
+		stats.duration = "";
+
+		if (duration.asYears() > 1)  { stats.duration += duration.years() + "y "; }
+		if (duration.asMonths() > 1) { stats.duration += duration.months() + "m "; }
+		if (duration.asDays > 1)     { stats.duration += duration.days() + "d "; }
+
+		stats.duration += duration.hours() + "h ";
+		stats.duration += duration.minutes() + "m ";
+		stats.duration += duration.seconds() + "s";
+
+		// nice dates
+		[ "min", "max" ].forEach(function(key) {
+			stats[key] = moment(stats[key]).format("DD/MM/YYYY HH:mm:ss");
+		});
+
+		return stats;
+	},
+
+	render: function() {
+		var stats = this.calculateStats(this.props.data);
+
+		return React.DOM.div(
+			null,
+			[ "min", "max", "duration" ].map(function(key) {
+				return React.DOM.div(
+					null,
+					key + ": ",
+					React.DOM.b(null, stats[key])
+				);
+			})
+		);
+	}
+});
+
+// displayes error on inconsistent types
+var DisplayTypeError = React.createClass({
+	render: function() {
+		return React.DOM.div(
+			{ "className": "error" },
+			"Inconsistent/Unknown types in array!"
+		);
+	}
+});
+
 // main react class
 var DisplayInfo = React.createClass({
 	render: function() {
@@ -110,10 +171,16 @@ var DisplayInfo = React.createClass({
 
 		var typesMap = {
 			"Number": NumberStats,
-			"String": StringStats
+			"String": StringStats,
+			"Date": DateStats
 		};
 
-		if (typesMap[dataType]) { content = typesMap[dataType]({ "data": this.props.data }); }
+		if (typesMap[dataType]) {
+			content = typesMap[dataType]({ "data": this.props.data });
+		}
+		else {
+			content = DisplayTypeError();
+		}
 
 		return React.DOM.div(null, content);
 	}

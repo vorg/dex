@@ -1,4 +1,5 @@
 var React = require("react/addons");
+var moment = require("moment");
 var type = require("./../utils").type;
 var DisplayJSON; // will be redefined later
 
@@ -70,6 +71,9 @@ DisplayJSON = React.createClass({
 			default:
 				if (typeName === "Boolean") {
 					data = data ? "true" : "false";
+				}
+				else if (typeName === "Date") {
+					data = moment(data).format("DD/MM/YYYY HH:mm:ss");
 				}
 
 				children.push(DisplayVariable({
