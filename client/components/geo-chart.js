@@ -63,7 +63,7 @@ module.exports = React.createClass({
 	render: function() {
 		return Chart({
 			"className": "geo-chart",
-			"drawFunc": D3Chart,
+			"chartFunc": D3Chart,
 			"data": this.props.data
 		});
 	}
