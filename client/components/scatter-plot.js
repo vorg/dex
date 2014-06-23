@@ -65,7 +65,7 @@ var D3Chart = function(props) {
 			.selectAll("text")
 			.style("text-anchor", "end")
 			.attr("dx", "-0.8em")
-			.attr("dy", "0.1em")
+			.attr("dy", "-0.3em")
 			.attr("transform", "rotate(-90)");
 
 		svg
