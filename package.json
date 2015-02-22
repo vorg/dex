@@ -1,0 +1,36 @@
+{
+  "name": "timetracking",
+  "version": "0.0.1",
+  "description": "Google Calendar based time tracker",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "timetracking",
+    "calendar"
+  ],
+  "author": "marcin.ignac@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "csv": "^0.3.7",
+    "d3": "^3.5.3",
+    "express": "^4.11.2",
+    "gulp-less": "^3.0.1",
+    "moment": "^2.9.0",
+    "ramda": "^0.8.0",
+    "react": "^0.12.2",
+    "simple-statistics": "^0.9.0",
+    "superagent": "^0.21.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^1.9.0",
+    "browserify": "^8.1.1",
+    "chalk": "^0.5.1",
+    "gulp": "^3.8.10",
+    "gulp-util": "^3.0.2",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.2.1",
+    "yargs": "^1.3.3"
+  }
+}

@@ -1,0 +1,79 @@
+@font-face {
+  font-family: 'inconsolata', sans-serif;
+  src: url('assets/fonts/inconsolata.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  background: white;
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+}
+body * {
+  margin: 0;
+  padding: 0;
+}
+body,
+form,
+input {
+  font-family: 'inconsolata', sans-serif;
+}
+.app {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: stretch;
+  -moz-align-items: stretch;
+  -ms-align-items: stretch;
+  align-items: stretch;
+  height: 100%;
+}
+.app .content {
+  -webkit-flex: 1;
+  -moz-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.command-line {
+  font-size: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  width: 100%;
+}
+.command-line input {
+  flex: 1;
+  box-sizing: border-box;
+  padding: 0.5em;
+  font-size: 100%;
+}
+.command-line .help {
+  padding: 0.5em;
+  color: #666;
+}
+.result {
+  border: 1px solid #555;
+  border-radius: 0.25em;
+  padding: 1em;
+  margin: 0.5em;
+  max-height: 400px;
+  overflow-y: scroll;
+}
