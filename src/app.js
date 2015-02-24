@@ -7,6 +7,7 @@ var ArrayResult     = React.createFactory(require('./result-array'));
 var ErrorResult     = React.createFactory(require('./result-error'));
 var R               = require('ramda');
 var rd3             = require('react-d3');
+var moment          = require('moment');
 
 console.log('v3');
 
@@ -28,7 +29,10 @@ var App = React.createClass({
 
     loadCSV('sales.csv');
     setTimeout(function() {
-      colInfo(temp_0, "Country");
+      //colInfo(temp_0, "Country");
+      //colInfo(temp_0, "Transaction_date", "time");
+      colInfo(temp_0, "Transaction_date", "date");
+      //colInfo(temp_0, "Account_Created", "date");
     }, 200)
   },
 
@@ -75,12 +79,38 @@ var App = React.createClass({
         return -(a.value - b.value);
       })
       chartData = chartData.slice(0, 20);
-      var results = {
+      results = {
         chart: 'bar',
         title: colName,
         data: chartData
       }
     }
+
+    if (type == "date") {
+      function formatDate(row) {
+        return moment(row[colName]).format("YYYY-MM-DD")
+      }
+      byValue = R.groupBy(formatDate, data);
+      console.log(byValue);
+      var values = Object.keys(byValue);
+      var xy = values.map(function(value) {
+        var count = byValue[value].length;
+        return { x: moment(value).toDate() , y: count }
+      });
+      xy.sort(function(a, b) {
+        return a.x.getTime() - b.x.getTime();
+      });
+      var chartData = [{
+        name: colName,
+        values: xy
+      }];
+      results = {
+        chart: 'line',
+        title: colName,
+        data: chartData
+      }
+    }
+
     this.state.results.push('Col "' + colName + '"" values');
 
     this.state.results.push(results);
@@ -110,6 +140,17 @@ var App = React.createClass({
         console.log(data.data)
         return React.DOM.div({ className: 'result' },
           rd3.BarChart({
+            data: data.data,
+            title: data.title,
+            width: window.innerWidth - 40,
+            height: 400,
+          })
+        );
+      }
+      if (data.chart == 'line') {
+        console.log(data.data)
+        return React.DOM.div({ className: 'result' },
+          rd3.LineChart({
             data: data.data,
             title: data.title,
             width: window.innerWidth - 40,
