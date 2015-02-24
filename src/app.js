@@ -4,6 +4,7 @@ var request         = require('superagent');
 var CommandLine     = React.createFactory(require('./command-line'));
 var TextBlockResult = React.createFactory(require('./result-text-block'));
 var ArrayResult     = React.createFactory(require('./result-array'));
+var ErrorResult     = React.createFactory(require('./result-error'));
 var R               = require('ramda');
 
 
@@ -25,7 +26,10 @@ var App = React.createClass({
     Globals.show = this.show;
     Globals.R = R;
 
-    loadCSV('dsi.csv');
+    loadCSV('sales.csv');
+    setTimeout(function() {
+      colInfo(temp_0, "Country");
+    }, 200)
   },
 
   loadCSV: function(fileName, varName) {
@@ -80,6 +84,9 @@ var App = React.createClass({
     var results = this.state.results.map(function(data) {
       if (Object.prototype.toString.call(data) == '[object Array]') {
         return ArrayResult({ data: data })
+      }
+      if (data.error) {
+        return ErrorResult({ data: data })
       }
       else {
         return TextBlockResult({ data: data })

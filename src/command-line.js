@@ -17,7 +17,18 @@ var CommandLine = React.createClass({
   },
   onKeyDown: function(e) {
     if (e.keyCode == 13) {
-      eval(this.refs.input.getDOMNode().value);
+      this.execute(this.refs.input.getDOMNode().value);
+    }
+  },
+  execute: function(code) {
+    try {
+      eval(code);
+    }
+    catch(e) {
+      show({
+        error: e.message,
+        stack: e.stack
+      })
     }
   },
   render: function() {

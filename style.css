@@ -77,3 +77,8 @@ input {
   max-height: 400px;
   overflow-y: scroll;
 }
+.result-error {
+  border: 1px solid red;
+  background: rgba(255, 0, 0, 0.1);
+  color: red;
+}
