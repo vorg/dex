@@ -30,8 +30,8 @@ var App = React.createClass({
     loadCSV('sales.csv');
     setTimeout(function() {
       //colInfo(temp_0, "Country");
-      //colInfo(temp_0, "Transaction_date", "time");
-      colInfo(temp_0, "Transaction_date", "date");
+      colInfo(temp_0, "Transaction_date", "time");
+      //colInfo(temp_0, "Transaction_date", "date");
       //colInfo(temp_0, "Account_Created", "date");
     }, 200)
   },
@@ -106,7 +106,31 @@ var App = React.createClass({
       }];
       results = {
         chart: 'line',
-        title: colName,
+        title: colName + 'as date',
+        data: chartData
+      }
+    }
+
+    if (type == "time") {
+      function formatTime(row) {
+        return moment(row[colName]).format("HH")
+      }
+      byValue = R.groupBy(formatTime, data);
+      var values = Object.keys(byValue);
+      var xy = values.map(function(value) {
+        var count = byValue[value].length;
+        return { x: Number(value) , y: count }
+      });
+      xy.sort(function(a, b) {
+        return a.x - b.x;
+      });
+      var chartData = [{
+        name: colName,
+        values: xy
+      }];
+      results = {
+        chart: 'line',
+        title: colName + ' as time',
         data: chartData
       }
     }
