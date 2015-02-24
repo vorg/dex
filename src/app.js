@@ -6,7 +6,7 @@ var TextBlockResult = React.createFactory(require('./result-text-block'));
 var ArrayResult     = React.createFactory(require('./result-array'));
 var ErrorResult     = React.createFactory(require('./result-error'));
 var R               = require('ramda');
-
+var rd3             = require('react-d3');
 
 console.log('v3');
 
@@ -54,17 +54,35 @@ var App = React.createClass({
     console.log('loadCSV loading...', fileName);
   },
 
-  colInfo: function(data, colName) {
+  colInfo: function(data, colName, type) {
     var byValue = {};
     data.forEach(function(row) {
       var value = row[colName];
       if (!byValue[value]) byValue[value] = [];
       byValue[value].push(row);
     });
-    var results = Object.keys(byValue).map(function(value) {
+    var values = Object.keys(byValue);
+    var results = values.map(function(value) {
       return byValue[value].length + 'x ' + value;
     });
+
+    if (type == "values") {
+      var chartData = values.map(function(value) {
+        var count = byValue[value].length;
+        return { label: value, value: count }
+      });
+      chartData.sort(function(a, b) {
+        return -(a.value - b.value);
+      })
+      chartData = chartData.slice(0, 20);
+      var results = {
+        chart: 'bar',
+        title: colName,
+        data: chartData
+      }
+    }
     this.state.results.push('Col "' + colName + '"" values');
+
     this.state.results.push(results);
     this.setState({ results: this.state.results });
   },
@@ -87,6 +105,17 @@ var App = React.createClass({
       }
       if (data.error) {
         return ErrorResult({ data: data })
+      }
+      if (data.chart == 'bar') {
+        console.log(data.data)
+        return React.DOM.div({ className: 'result' },
+          rd3.BarChart({
+            data: data.data,
+            title: data.title,
+            width: window.innerWidth - 40,
+            height: 400,
+          })
+        );
       }
       else {
         return TextBlockResult({ data: data })
